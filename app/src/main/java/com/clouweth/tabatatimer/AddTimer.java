@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class AddTimer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_timer);
         unit_of_ex = (EditText) findViewById(R.id.unit_of_ex);
+        Bundle parameter = getIntent().getExtras();
         count_of_rounds = (EditText) findViewById(R.id.count_of_rounds);
         rest_between_rounds = (EditText) findViewById(R.id.rest_between_rounds);
         rest_between_ex = (EditText) findViewById(R.id.rest_between_ex);
@@ -39,28 +42,35 @@ public class AddTimer extends AppCompatActivity {
         dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         containerLayout.setPadding(0, 0,0, dp10);
         createField(containerLayout);
+        if (parameter.get("edit").toString().equals("new")) {
+            System.out.println("new");
+        } else {unit_of_ex.setText(parameter.get("edit").toString());}
     }
 
     public void saveToDb(View view) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name_of_group", unit_of_ex.getText().toString());
-        contentValues.put("time", Integer.parseInt(time_of_ex.getText().toString()));
-        contentValues.put("rest_rounds", Integer.parseInt(rest_between_rounds.getText().toString()));
-        contentValues.put("rest_ex", Integer.parseInt(rest_between_ex.getText().toString()));
-        contentValues.put("count_of_rounds", Integer.parseInt(count_of_rounds.getText().toString()));
-        db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
-        db.insert("timers", null, contentValues);
-        System.out.println(counterFields);
-        for (int i = 1; i <= counterFields; i++) {
-            EditText editText = (EditText)findViewById(i);
-            System.out.println("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
-                    "', '" + editText.getText().toString() + "');");
-            db.execSQL("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
-                    "', '" + editText.getText().toString() + "');");
-            System.out.println(editText.getText().toString());
+        if (checkEmptyFields()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name_of_group", unit_of_ex.getText().toString());
+            contentValues.put("time", Integer.parseInt(time_of_ex.getText().toString()));
+            contentValues.put("rest_rounds", Integer.parseInt(rest_between_rounds.getText().toString()));
+            contentValues.put("rest_ex", Integer.parseInt(rest_between_ex.getText().toString()));
+            contentValues.put("count_of_rounds", Integer.parseInt(count_of_rounds.getText().toString()));
+            db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
+            db.insert("timers", null, contentValues);
+            System.out.println(counterFields);
+            for (int i = 1; i <= counterFields; i++) {
+                EditText editText = (EditText)findViewById(i);
+                System.out.println("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
+                        "', '" + editText.getText().toString() + "');");
+                db.execSQL("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
+                        "', '" + editText.getText().toString() + "');");
+                System.out.println(editText.getText().toString());
+            }
+            db.close();
+            goExercises();
+        } else {
+            Toast.makeText(getApplicationContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
         }
-        db.close();
-        goExercises();
     }
     private void goExercises() {
         Intent intent = new Intent(this, Exercises.class);
@@ -105,5 +115,19 @@ public class AddTimer extends AppCompatActivity {
         editText.setTextColor(getResources().getColor(R.color.letters));
         editText.setBackgroundResource(R.drawable.round_angle);
         all_ex.add(editText);
+    }
+    public boolean checkEmptyFields() {
+        ArrayList<String> fields = new ArrayList<String>();
+        fields.add(unit_of_ex.getText().toString());
+        fields.add(time_of_ex.getText().toString());
+        fields.add(rest_between_rounds.getText().toString());
+        fields.add(rest_between_ex.getText().toString());
+        fields.add(count_of_rounds.getText().toString());
+        for (int i = 1; i <= counterFields; i++) {
+            EditText editText = (EditText)findViewById(counterFields);
+            fields.add(editText.getText().toString());
+        }
+        System.out.println(fields);
+        return !fields.contains("");
     }
 }

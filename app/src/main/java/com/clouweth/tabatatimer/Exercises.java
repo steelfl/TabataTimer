@@ -57,6 +57,7 @@ public class Exercises extends AppCompatActivity {
     }
     public void addEx(View view) {
         Intent intent = new Intent(this, AddTimer.class);
+        intent.putExtra("edit", "new");
         startActivity(intent);
     }
     public void showPopupMenu(View view) {
@@ -95,6 +96,9 @@ public class Exercises extends AppCompatActivity {
     }
     public void editTimer(TextView textView) {
         //запустить addtimer с предустановленными полями для правки
+        Intent intent = new Intent(this, AddTimer.class);
+        intent.putExtra("edit", textView.getText().toString());
+        startActivity(intent);
     }
     private void deleteDialog(final TextView textView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
