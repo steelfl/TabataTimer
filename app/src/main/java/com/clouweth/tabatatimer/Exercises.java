@@ -16,14 +16,18 @@ import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Exercises extends AppCompatActivity {
     SQLiteDatabase db;
     ListView list_of_ex;
     ArrayAdapter<String> adapter;
+    ArrayList<String> cash;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+        cash = new ArrayList<>();
         list_of_ex = findViewById(R.id.list_of_ex);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
@@ -39,6 +43,8 @@ public class Exercises extends AppCompatActivity {
             do {
                 //произвести заполнение listview
                 adapter.add(read_timers.getString(0));
+                cash.add(read_timers.getString(0));
+                //System.out.println(cash);
             } while (read_timers.moveToNext());
             list_of_ex.setAdapter(adapter);
             list_of_ex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,6 +64,7 @@ public class Exercises extends AppCompatActivity {
     public void addEx(View view) {
         Intent intent = new Intent(this, AddTimer.class);
         intent.putExtra("edit", "new");
+        intent.putExtra("cash", cash);
         startActivity(intent);
     }
     public void showPopupMenu(View view) {

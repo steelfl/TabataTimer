@@ -28,12 +28,13 @@ public class AddTimer extends AppCompatActivity {
     int counterFields = 1;
     LinearLayout.LayoutParams layoutParams;
     int dp10;
+    Bundle parameter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_timer);
         unit_of_ex = (EditText) findViewById(R.id.unit_of_ex);
-        Bundle parameter = getIntent().getExtras();
+        parameter = getIntent().getExtras();
         count_of_rounds = (EditText) findViewById(R.id.count_of_rounds);
         rest_between_rounds = (EditText) findViewById(R.id.rest_between_rounds);
         rest_between_ex = (EditText) findViewById(R.id.rest_between_ex);
@@ -48,7 +49,7 @@ public class AddTimer extends AppCompatActivity {
     }
 
     public void saveToDb(View view) {
-        if (checkEmptyFields()) {
+        if (checkEmptyFields() && checkNameTimer()) {
             ContentValues contentValues = new ContentValues();
             contentValues.put("name_of_group", unit_of_ex.getText().toString());
             contentValues.put("time", Integer.parseInt(time_of_ex.getText().toString()));
@@ -68,8 +69,10 @@ public class AddTimer extends AppCompatActivity {
             }
             db.close();
             goExercises();
-        } else {
+        } else if(!checkEmptyFields()) {
             Toast.makeText(getApplicationContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+        } else if(!checkNameTimer()) {
+            Toast.makeText(getApplicationContext(), "Таймер с таким именем уже существует", Toast.LENGTH_SHORT).show();
         }
     }
     private void goExercises() {
@@ -129,5 +132,8 @@ public class AddTimer extends AppCompatActivity {
         }
         System.out.println(fields);
         return !fields.contains("");
+    }
+    public boolean checkNameTimer() {
+        return !((ArrayList<String>) parameter.get("cash")).contains(unit_of_ex.getText().toString());
     }
 }
