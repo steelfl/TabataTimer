@@ -220,7 +220,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(exes);
             } while (cursor.moveToNext());
             setFields();
-        } else name.setText("таймер не выбран");
+        } else {
+            name.setText("таймер не выбран");
+            start.setEnabled(false);
+        }
         cursor.close();
         db.close();
     }

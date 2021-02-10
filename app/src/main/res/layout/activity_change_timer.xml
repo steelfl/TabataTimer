@@ -20,7 +20,7 @@
                 android:gravity="center"
                 android:textSize="24sp"/>
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -29,7 +29,7 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/save"
-                android:onClick="addEx"/>
+                android:onClick="addEx"/>-->
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
     <ExpandableListView
