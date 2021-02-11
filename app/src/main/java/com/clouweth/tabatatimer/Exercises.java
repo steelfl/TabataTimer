@@ -77,7 +77,7 @@ public class Exercises extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.edit:
                         editTimer(textView);
-                        Toast.makeText(getApplicationContext(), "edit " + textView.getText(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "edit " + textView.getText(), Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.delete:
                         //отобразить диалоговое окно

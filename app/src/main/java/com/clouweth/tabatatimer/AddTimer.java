@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +42,10 @@ public class AddTimer extends AppCompatActivity {
         dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         containerLayout.setPadding(0, 0,0, dp10);
         createField(containerLayout);
-        if (parameter.get("edit").toString().equals("new")) {
+        if (!parameter.get("edit").toString().equals("new")) {
             System.out.println("new");
-        } else {unit_of_ex.setText(parameter.get("edit").toString());}
+            unit_of_ex.setText(parameter.get("edit").toString());
+        }
     }
 
     public void saveToDb(View view) {
