@@ -23,7 +23,7 @@ public class AddTimer extends AppCompatActivity {
     EditText rest_between_ex;
     EditText time_of_ex;
     SQLiteDatabase db;
-    List<EditText> all_ex = new ArrayList<EditText>();
+    //List<EditText> all_ex = new ArrayList<EditText>();//попробовать удалить, не задействовано в работе приложения
     LinearLayout containerLayout;
     int counterFields = 1;
     LinearLayout.LayoutParams layoutParams;
@@ -40,7 +40,7 @@ public class AddTimer extends AppCompatActivity {
         rest_between_ex = (EditText) findViewById(R.id.rest_between_ex);
         time_of_ex = (EditText) findViewById(R.id.time_of_ex);
         containerLayout = (LinearLayout)findViewById(R.id.mlayout);
-        dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+        dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         containerLayout.setPadding(0, 0,0, dp10);
         if (!parameter.get("edit").toString().equals("new")) {
             System.out.println("new");
@@ -102,7 +102,9 @@ public class AddTimer extends AppCompatActivity {
         editText.setId(counterFields);
         editText.setTextColor(getResources().getColor(R.color.letters));
         editText.setBackgroundResource(R.drawable.round_angle);
-        all_ex.add(editText);
+        editText.setPadding(10, 10, 10, 10);
+        editText.setTextSize(24);
+        //all_ex.add(editText);
     }
     public boolean checkEmptyFields() {
         ArrayList<String> fields = new ArrayList<String>();

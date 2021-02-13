@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     System.out.println(doing + switcher + ex_now + round_now + count_of_ex + count_of_rounds);
                     running();
-
                     /*for (int i = 1; i <= count_of_rounds; i++) {
                         for (int j = 1; j <= count_of_ex; j++) {
                             if (j == count_of_ex && doing) {
@@ -132,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
             residue.setText(toTime(time_on));
         }
     };
+    Handler resetUi = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            reset(pause_reset);
+        }
+    };
 
     public void running() {
         while (doing && time_on >= 0) {
@@ -149,30 +154,50 @@ public class MainActivity extends AppCompatActivity {
                 sec_on = rest_ex;
                 switcher = "rest_ex";
                 ex_now++;
-                name.setText(name_of_timer + "\n" + "отдых между упражнениями");
-            } else if (sec_on < 0 && switcher.equals("exercise") && ex_now == count_of_ex && round_now < count_of_rounds) {
+                name.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        name.setText(name_of_timer + "\n" + "отдых между упражнениями");
+                    }
+                });
+            } else if (sec_on < 0 && switcher.equals("exercise") && ex_now.equals(count_of_ex) && round_now < count_of_rounds) {
                 System.out.println("запускаем отдых между кругами");
                 sec_on = rest_rounds;
                 switcher = "rest_rounds";
-                name.setText(name_of_timer + "\n" + "отдых между кругами");
+                name.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        name.setText(name_of_timer + "\n" + "отдых между кругами");
+                    }
+                });
             } else if (sec_on < 0 && switcher.equals("rest_ex")) {
                 System.out.println("запускаем упражнение в круге");
                 sec_on = time;
                 switcher = "exercise";
                 //ex_now++;
-                approach.setText(ex_now + "/" + count_of_ex.toString());
-                name.setText(name_of_timer + "\n" + exes.get(ex_now - 1));
+                name.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        name.setText(name_of_timer + "\n" + exes.get(ex_now - 1));
+                        approach.setText(ex_now + "/" + count_of_ex.toString());
+                    }
+                });
             } else if (sec_on < 0 && switcher.equals("rest_rounds") && round_now < count_of_rounds) {
                 System.out.println("запускаем новый круг");
                 sec_on = time;
                 switcher = "exercise";
                 round_now++;
                 ex_now = 1;
-                repetitions.setText(round_now + "/" + count_of_rounds.toString());
-                approach.setText(ex_now + "/" + count_of_ex.toString());
-                name.setText(name_of_timer + "\n" + exes.get(ex_now - 1));
-            } else if (sec_on < 0 && switcher.equals("exercise") && ex_now == count_of_ex && round_now == count_of_rounds) {
-                //reset(this.findViewById(R.id.buttonReset));
+                name.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        repetitions.setText(round_now + "/" + count_of_rounds.toString());
+                        approach.setText(ex_now + "/" + count_of_ex.toString());
+                        name.setText(name_of_timer + "\n" + exes.get(ex_now - 1));
+                    }
+                });
+            } else if (sec_on < 0 && switcher.equals("exercise") && ex_now.equals(count_of_ex) && round_now.equals(count_of_rounds)) {
+                resetUi.sendEmptyMessage(0);
             }
         }
     }
