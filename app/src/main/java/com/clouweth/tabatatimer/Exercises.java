@@ -105,6 +105,8 @@ public class Exercises extends AppCompatActivity {
         //запустить addtimer с предустановленными полями для правки
         Intent intent = new Intent(this, AddTimer.class);
         intent.putExtra("edit", textView.getText().toString());
+        cash.remove(textView.getText().toString());
+        intent.putExtra("cash", cash);
         startActivity(intent);
     }
     private void deleteDialog(final TextView textView) {

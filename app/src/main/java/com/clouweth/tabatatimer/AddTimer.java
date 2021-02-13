@@ -2,6 +2,7 @@ package com.clouweth.tabatatimer;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -39,41 +40,25 @@ public class AddTimer extends AppCompatActivity {
         rest_between_ex = (EditText) findViewById(R.id.rest_between_ex);
         time_of_ex = (EditText) findViewById(R.id.time_of_ex);
         containerLayout = (LinearLayout)findViewById(R.id.mlayout);
-        dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        dp10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
         containerLayout.setPadding(0, 0,0, dp10);
-        createField(containerLayout);
         if (!parameter.get("edit").toString().equals("new")) {
             System.out.println("new");
-            unit_of_ex.setText(parameter.get("edit").toString());
+            counterFields = 0;
+            fillingFields(parameter.get("edit").toString());
+        } else {
+            createField(containerLayout);
         }
     }
 
     public void saveToDb(View view) {
-        if (checkEmptyFields() && checkNameTimer()) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("name_of_group", unit_of_ex.getText().toString());
-            contentValues.put("time", Integer.parseInt(time_of_ex.getText().toString()));
-            contentValues.put("rest_rounds", Integer.parseInt(rest_between_rounds.getText().toString()));
-            contentValues.put("rest_ex", Integer.parseInt(rest_between_ex.getText().toString()));
-            contentValues.put("count_of_rounds", Integer.parseInt(count_of_rounds.getText().toString()));
+        if (!parameter.get("edit").toString().equals("new")) {
+            //удалить весь таймер и записать новый
             db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
-            db.insert("timers", null, contentValues);
-            System.out.println(counterFields);
-            for (int i = 1; i <= counterFields; i++) {
-                EditText editText = (EditText)findViewById(i);
-                System.out.println("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
-                        "', '" + editText.getText().toString() + "');");
-                db.execSQL("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
-                        "', '" + editText.getText().toString() + "');");
-                System.out.println(editText.getText().toString());
-            }
+            db.execSQL("DELETE FROM timers WHERE name_of_group = '" + parameter.get("edit").toString() + "'");
             db.close();
-            goExercises();
-        } else if(!checkEmptyFields()) {
-            Toast.makeText(getApplicationContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
-        } else if(!checkNameTimer()) {
-            Toast.makeText(getApplicationContext(), "Таймер с таким именем уже существует", Toast.LENGTH_SHORT).show();
         }
+        writeToDb();
     }
     private void goExercises() {
         Intent intent = new Intent(this, Exercises.class);
@@ -135,5 +120,51 @@ public class AddTimer extends AppCompatActivity {
     }
     public boolean checkNameTimer() {
         return !((ArrayList<String>) parameter.get("cash")).contains(unit_of_ex.getText().toString());
+    }
+    public void fillingFields(String name) {
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM TIMERS WHERE NAME_OF_GROUP = '" + name + "'", null);
+        cursor.moveToFirst();
+        unit_of_ex.setText(cursor.getString(0));
+        time_of_ex.setText(cursor.getString(2));
+        rest_between_rounds.setText(cursor.getString(5));
+        rest_between_ex.setText(cursor.getString(6));
+        count_of_rounds.setText(cursor.getString(3));
+        cursor.moveToNext();
+        do {
+            addField(containerLayout);
+            EditText editText = (EditText)findViewById(counterFields);
+            editText.setText(cursor.getString(1));
+        } while (cursor.moveToNext());
+        cursor.close();
+        db.close();
+    }
+    public void writeToDb() {
+        if (checkEmptyFields() && checkNameTimer()) {
+            System.out.println("sssssssssss");
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name_of_group", unit_of_ex.getText().toString());
+            contentValues.put("time", Integer.parseInt(time_of_ex.getText().toString()));
+            contentValues.put("rest_rounds", Integer.parseInt(rest_between_rounds.getText().toString()));
+            contentValues.put("rest_ex", Integer.parseInt(rest_between_ex.getText().toString()));
+            contentValues.put("count_of_rounds", Integer.parseInt(count_of_rounds.getText().toString()));
+            db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
+            db.insert("timers", null, contentValues);
+            System.out.println(counterFields);
+            for (int i = 1; i <= counterFields; i++) {
+                EditText editText = (EditText)findViewById(i);
+                System.out.println("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
+                        "', '" + editText.getText().toString() + "');");
+                db.execSQL("INSERT INTO timers (name_of_group, name_of_ex) VALUES ( '" + unit_of_ex.getText().toString() +
+                        "', '" + editText.getText().toString() + "');");
+                System.out.println(editText.getText().toString());
+            }
+            db.close();
+            goExercises();
+        } else if(!checkEmptyFields()) {
+            Toast.makeText(getApplicationContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+        } else if(!checkNameTimer()) {
+            Toast.makeText(getApplicationContext(), "Таймер с таким именем уже существует", Toast.LENGTH_SHORT).show();
+        }
     }
 }
