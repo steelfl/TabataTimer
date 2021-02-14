@@ -61,6 +61,13 @@ public class Exercises extends AppCompatActivity {
         read_timers.close();
         db.close();
     }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        adapter.notifyDataSetChanged();
+        System.out.println("new intent");
+        //добавить сюда отображение сохраненного таймера
+    }
     public void addEx(View view) {
         Intent intent = new Intent(this, AddTimer.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
