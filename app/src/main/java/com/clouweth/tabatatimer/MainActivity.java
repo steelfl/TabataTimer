@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
     Integer rest_rounds;
     Integer count_of_rounds;//количество кругов
     Integer count_of_ex;//количество упражнений
-    //Integer counter_ex;
-    //Integer counter_rs;
     Integer round_now;
     Integer ex_now;
     Integer time_summary;//общее время
@@ -72,52 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     System.out.println(doing + switcher + ex_now + round_now + count_of_ex + count_of_rounds);
                     running();
-                    /*for (int i = 1; i <= count_of_rounds; i++) {
-                        for (int j = 1; j <= count_of_ex; j++) {
-                            if (j == count_of_ex && doing) {
-                                System.out.println("start ex " + j);
-                                approach.setText(j + "/" + count_of_ex.toString());
-                                running();
-                                System.out.println("end round");
-                            } else if (doing) {
-                                System.out.println("start ex " + j);
-                                approach.setText(j + "/" + count_of_ex.toString());
-                                running();
-                                sec_on = rest_ex;
-                                System.out.println("rest after ex" + j);
-                                running();
-                                sec_on = time;
-                                System.out.println("end of ex" + j);
-                            }
-                        }
-                        if (i == count_of_rounds && doing) {
-                            System.out.println("end timer");
-                            round_now = 1;
-                            sec_on = time;
-                            time_on = time_summary;
-                            doing = false;
-                            setFields();
-                            pause_reset.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    pause_reset.setVisibility(View.INVISIBLE);
-                                }
-                            });
-                            start_block.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    start_block.setVisibility(View.VISIBLE);
-                                }
-                            });
-                        } else if (doing) {
-                            System.out.println("rest between rounds");
-                            sec_on = rest_rounds;
-                            running();
-                            repetitions.setText(i + 1 + "/" + count_of_rounds.toString());
-                            sec_on = time;
-                            round_now++;
-                        }
-                    }*/
                 }
             };
             thread = new Thread(runnable);
