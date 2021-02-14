@@ -62,6 +62,7 @@ public class AddTimer extends AppCompatActivity {
     }
     private void goExercises() {
         Intent intent = new Intent(this, Exercises.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
     public void addField(View view) {

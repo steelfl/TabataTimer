@@ -63,6 +63,7 @@ public class Exercises extends AppCompatActivity {
     }
     public void addEx(View view) {
         Intent intent = new Intent(this, AddTimer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra("edit", "new");
         intent.putExtra("cash", cash);
         startActivity(intent);
@@ -104,6 +105,7 @@ public class Exercises extends AppCompatActivity {
     public void editTimer(TextView textView) {
         //запустить addtimer с предустановленными полями для правки
         Intent intent = new Intent(this, AddTimer.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra("edit", textView.getText().toString());
         cash.remove(textView.getText().toString());
         intent.putExtra("cash", cash);

@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 style="@style/ItemDb"
                 android:hint="Название таймера"
+                android:inputType="textPersonName"
                 android:id="@+id/unit_of_ex"/>
             <EditText
                 android:layout_width="match_parent"
