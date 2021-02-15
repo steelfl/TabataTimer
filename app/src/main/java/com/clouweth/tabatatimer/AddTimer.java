@@ -63,7 +63,6 @@ public class AddTimer extends AppCompatActivity {
     private void goExercises() {
         Intent intent = new Intent(this, Exercises.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("addedTimer", unit_of_ex.getText().toString());
         startActivity(intent);
     }
     public void addField(View view) {
