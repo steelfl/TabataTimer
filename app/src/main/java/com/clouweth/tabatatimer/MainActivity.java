@@ -1,6 +1,7 @@
 package com.clouweth.tabatatimer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
     public void running() {
         while (doing && time_on >= 0) {
             handler.sendEmptyMessage(0);
-            //System.out.println(sec_on);
             try {
                 thread.sleep(1000);
             } catch (Exception e) {
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 switcher = "rest_ex";
                 ex_now++;
                 name.post(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
                         name.setText(name_of_timer + "\n" + "отдых между упражнениями");
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 sec_on = rest_rounds;
                 switcher = "rest_rounds";
                 name.post(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
                         name.setText(name_of_timer + "\n" + "отдых между кругами");
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 switcher = "exercise";
                 //ex_now++;
                 name.post(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
                         name.setText(name_of_timer + "\n" + exes.get(ex_now - 1));
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 round_now++;
                 ex_now = 1;
                 name.post(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
                         repetitions.setText(round_now + "/" + count_of_rounds.toString());
@@ -204,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         db.close();
     }
+    @SuppressLint("SetTextI18n")
     public void setFields() {
         round_now = 1;
         ex_now = 1;

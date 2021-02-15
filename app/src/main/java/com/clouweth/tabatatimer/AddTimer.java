@@ -23,7 +23,6 @@ public class AddTimer extends AppCompatActivity {
     EditText rest_between_ex;
     EditText time_of_ex;
     SQLiteDatabase db;
-    //List<EditText> all_ex = new ArrayList<EditText>();//попробовать удалить, не задействовано в работе приложения
     LinearLayout containerLayout;
     int counterFields = 1;
     LinearLayout.LayoutParams layoutParams;
@@ -105,7 +104,6 @@ public class AddTimer extends AppCompatActivity {
         editText.setBackgroundResource(R.drawable.round_angle);
         editText.setPadding(10, 10, 10, 10);
         editText.setTextSize(24);
-        //all_ex.add(editText);
     }
     public boolean checkEmptyFields() {
         ArrayList<String> fields = new ArrayList<String>();
@@ -144,7 +142,6 @@ public class AddTimer extends AppCompatActivity {
     }
     public void writeToDb() {
         if (checkEmptyFields() && checkNameTimer()) {
-            System.out.println("sssssssssss");
             ContentValues contentValues = new ContentValues();
             contentValues.put("name_of_group", unit_of_ex.getText().toString());
             contentValues.put("time", Integer.parseInt(time_of_ex.getText().toString()));

@@ -9,9 +9,10 @@
         android:roundIcon="@drawable/cockpit"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
+        <activity android:name=".MainActivityTg"></activity>
         <activity
             android:name=".ChangeTimer"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Exercises"
             android:screenOrientation="portrait" />
