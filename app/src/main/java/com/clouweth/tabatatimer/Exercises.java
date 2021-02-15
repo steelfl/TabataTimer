@@ -34,6 +34,8 @@ public class Exercises extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        cash.removeAll(cash);
+        System.out.println(cash);
         fillingList();
     }
     public void addEx(View view) {
@@ -41,6 +43,7 @@ public class Exercises extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra("edit", "new");
         intent.putExtra("cash", cash);
+        System.out.println(cash);
         startActivity(intent);
     }
     public void showPopupMenu(View view) {
