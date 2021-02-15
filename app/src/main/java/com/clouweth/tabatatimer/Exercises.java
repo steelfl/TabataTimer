@@ -29,44 +29,12 @@ public class Exercises extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
         cash = new ArrayList<>();
         list_of_ex = findViewById(R.id.list_of_ex);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
-        /*db.execSQL("CREATE TABLE IF NOT EXISTS timers (name_of_group TEXT, name_of_ex TEXT, time INTEGER, count_of_rounds INTEGER, default_timer INTEGER, " +
-                "rest_rounds INTEGER, rest_ex INTEGER)");*/
-        /*File f = getApplicationContext().getDatabasePath("tabatatimer.db");
-        long dbSize = f.length();
-        System.out.println(dbSize);*/
-        //выполнить чтение из бд и заполнить результатами listview
-        Cursor read_timers = db.rawQuery("SELECT DISTINCT NAME_OF_GROUP FROM TIMERS", null);
-        if(read_timers.moveToFirst()) {
-            //если таблица не пуста, отобразить названия таймеров
-            do {
-                //произвести заполнение listview
-                adapter.add(read_timers.getString(0));
-                cash.add(read_timers.getString(0));
-                //System.out.println(cash);
-            } while (read_timers.moveToNext());
-            list_of_ex.setAdapter(adapter);
-            list_of_ex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    showPopupMenu(view);
-                }
-            });
-        } else {
-            //если таблица пуста, отобразить инфу что таймеров нет
-            adapter.add("таймеров еще нет, нажмите '+' чтобы добавить");
-            list_of_ex.setAdapter(adapter);
-        }
-        read_timers.close();
-        db.close();
+        fillingList();
     }
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        adapter.notifyDataSetChanged();
-        System.out.println("new intent");
-        //добавить сюда отображение сохраненного таймера
+        fillingList();
     }
     public void addEx(View view) {
         Intent intent = new Intent(this, AddTimer.class);
@@ -132,5 +100,36 @@ public class Exercises extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+    public void fillingList() {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
+        /*File f = getApplicationContext().getDatabasePath("tabatatimer.db");
+        long dbSize = f.length();
+        System.out.println(dbSize);*/
+        //выполнить чтение из бд и заполнить результатами listview
+        Cursor read_timers = db.rawQuery("SELECT DISTINCT NAME_OF_GROUP FROM TIMERS", null);
+        if(read_timers.moveToFirst()) {
+            //если таблица не пуста, отобразить названия таймеров
+            do {
+                //произвести заполнение listview
+                adapter.add(read_timers.getString(0));
+                cash.add(read_timers.getString(0));
+                //System.out.println(cash);
+            } while (read_timers.moveToNext());
+            list_of_ex.setAdapter(adapter);
+            list_of_ex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    showPopupMenu(view);
+                }
+            });
+        } else {
+            //если таблица пуста, отобразить инфу что таймеров нет
+            adapter.add("таймеров еще нет, нажмите '+' чтобы добавить");
+            list_of_ex.setAdapter(adapter);
+        }
+        read_timers.close();
+        db.close();
     }
 }
