@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddTimer extends AppCompatActivity {
+    TextView counter;
     EditText unit_of_ex;
     EditText count_of_rounds;
     EditText rest_between_rounds;
@@ -32,6 +33,7 @@ public class AddTimer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_timer);
+        counter = (TextView)findViewById(R.id.counter);
         unit_of_ex = (EditText) findViewById(R.id.unit_of_ex);
         parameter = getIntent().getExtras();
         count_of_rounds = (EditText) findViewById(R.id.count_of_rounds);
@@ -48,6 +50,16 @@ public class AddTimer extends AppCompatActivity {
         } else {
             createField(containerLayout);
         }
+        counter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (counterFields == 5) {
+                    Intent intent = new Intent(AddTimer.this, MainActivityTg.class);
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
     }
 
     public void saveToDb(View view) {
@@ -71,9 +83,9 @@ public class AddTimer extends AppCompatActivity {
         //инкрементим счетчик
         counterFields++;
         //создаем поле для отображения количества полей
-        TextView textView = (TextView)findViewById(R.id.counter);
+        //TextView textView = (TextView)findViewById(R.id.counter);
         //устанавливаем значение счетчика в поле
-        textView.setText(String.valueOf(counterFields));
+        counter.setText(String.valueOf(counterFields));
         createField(containerLayout);
     }
     public void removeField(View view) {
@@ -82,8 +94,8 @@ public class AddTimer extends AppCompatActivity {
         EditText editText = (EditText)findViewById(counterFields);
         containerLayout.removeView(editText);
         counterFields--;
-        TextView textView = (TextView)findViewById(R.id.counter);
-        textView.setText(String.valueOf(counterFields));
+        //TextView textView = (TextView)findViewById(R.id.counter);
+        counter.setText(String.valueOf(counterFields));
     }
     public void createField(View view) {
         //создаем editText с стилем в конструкторе

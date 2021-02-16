@@ -20,7 +20,8 @@ public class ChangeTimer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_timer);
         list_of_ex = findViewById(R.id.list_of_timers);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<>(this, R.layout.list_item);
         db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
         //db.execSQL("CREATE TABLE IF NOT EXISTS timers (name_of_group TEXT, name_of_ex TEXT, time INTEGER, count_of_rounds INTEGER)");
         //выполнить чтение из бд и заполнить результатами ListView

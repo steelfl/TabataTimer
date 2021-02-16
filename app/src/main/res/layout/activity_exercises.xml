@@ -31,12 +31,6 @@
                 android:onClick="addEx"/>
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-    <!--<TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Отжимания"
-        style="@style/ItemDb"
-        android:id="@+id/item"/>-->
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

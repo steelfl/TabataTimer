@@ -2,6 +2,8 @@ package com.clouweth.tabatatimer;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -105,7 +107,8 @@ public class Exercises extends AppCompatActivity {
         builder.show();
     }
     public void fillingList() {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        //adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<>(this, R.layout.list_item);
         db = getBaseContext().openOrCreateDatabase("tabatatimer.db", MODE_PRIVATE, null);
         /*File f = getApplicationContext().getDatabasePath("tabatatimer.db");
         long dbSize = f.length();
