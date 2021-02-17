@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         exes = new ArrayList<String>();
         fillDisplay();
     }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        fillDisplay();
+    }
     public void start(View view) {
         pause_reset.setVisibility(View.VISIBLE);
         start_block.setVisibility(View.INVISIBLE);
@@ -204,6 +210,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             name.setText("таймер не выбран");
             start.setEnabled(false);
+            repetitions.setText("-/-");
+            approach.setText("-/-");
+            residue.setText("--/--");
+            timer.setText("00:00");
         }
         cursor.close();
         db.close();

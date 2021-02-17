@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -59,6 +63,58 @@ public class AddTimer extends AppCompatActivity {
                 }
                 return true;
             }
+        });
+        count_of_rounds.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.toString().matches("^0") ) {
+                    count_of_rounds.setText("");
+                    count_of_rounds.setError("Zero is not valid input");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable arg0) { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        });
+        rest_between_ex.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.toString().matches("^0") ) {
+                    rest_between_ex.setText("");
+                    rest_between_ex.setError("Zero is not valid input");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable arg0) { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        });
+        rest_between_rounds.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.toString().matches("^0") ) {
+                    rest_between_rounds.setText("");
+                    rest_between_rounds.setError("Zero is not valid input");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable arg0) { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        });
+        time_of_ex.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.toString().matches("^0") ) {
+                    time_of_ex.setText("");
+                    time_of_ex.setError("Zero is not valid input");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable arg0) { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         });
     }
 
@@ -116,6 +172,16 @@ public class AddTimer extends AppCompatActivity {
         editText.setBackgroundResource(R.drawable.round_angle);
         editText.setPadding(10, 10, 10, 10);
         editText.setTextSize(24);
+        editText.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence cs, int start,
+                                               int end, Spanned spanned, int dStart, int dEnd) {
+
+                        return cs.toString().replaceAll("[^a-zA-Zа-яА-Я0-9 ]*","");
+                    }
+                }
+        });
     }
     public boolean checkEmptyFields() {
         ArrayList<String> fields = new ArrayList<String>();
