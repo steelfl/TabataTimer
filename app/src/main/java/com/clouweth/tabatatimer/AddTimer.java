@@ -175,9 +175,7 @@ public class AddTimer extends AppCompatActivity {
         editText.setFilters(new InputFilter[] {
                 new InputFilter() {
                     @Override
-                    public CharSequence filter(CharSequence cs, int start,
-                                               int end, Spanned spanned, int dStart, int dEnd) {
-
+                    public CharSequence filter(CharSequence cs, int start, int end, Spanned spanned, int dStart, int dEnd) {
                         return cs.toString().replaceAll("[^a-zA-Zа-яА-Я0-9 ]*","");
                     }
                 }
