@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.clouweth.tabatatimer">
     <uses-permission android:name="android.permission.INTERNET"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"/>
 
     <application

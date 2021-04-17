@@ -1,2 +1,3 @@
+include ':libtd'
 rootProject.name='TabataTimer'
 include ':app'
